@@ -1,0 +1,30 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DIRECT_URL")
+}
+
+model Notification {
+  id              String   @id @default(uuid())
+  user_id         String
+  type            NotificationType
+  message         String?     // optional
+  related_user_id String?     // optional
+  chat_id         String?     // optional
+  is_read         Boolean     @default(false)
+  created_at      DateTime    @default(now())
+  updated_at      DateTime?   @updatedAt
+
+  @@map("notifications") 
+}
+
+enum NotificationType {
+  MESSAGE
+  FRIEND_REQUEST
+  MENTION
+  OTHER 
+}
